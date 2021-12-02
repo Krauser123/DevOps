@@ -14,14 +14,16 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-#If you use Core 5 or higher remove this step
+#If you use Core 5 or higher remove this task
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '3.x'
 
+#If you use Core 5 or higher remove inputs in this task
 - task: NuGetToolInstaller@1
-  displayName: Install NuGet
+  inputs:
+    versionSpec: '3.x'
 
 - task: DotNetCoreCLI@2
   inputs:
