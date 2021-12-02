@@ -1,0 +1,51 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+
+trigger:
+- main
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+  displayName: Install NuGet
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+  displayName: Restore NuGet packages
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: build 
+    projects: '**/*.csproj'
+  displayName: Build Projects
+
+- script: |
+    dotnet test MyProj/MyProj.csproj --logger trx --collect "XPlat Code Coverage" --settings "MyProj/bin/Debug/netcoreapp3.1/CodeCoverage.runsettings"
+   displayName: Run Code Coverage
+
+- task: PublishTestResults@2
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+  displayName: Publish Tests Results
+
+- script: |
+    dotnet publish MyProj --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/MyProj
+  displayName: dotNet Publish
+
+- script: dir $(Build.ArtifactStagingDirectory)
+  displayName: List items in build Dir
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    publishLocation: 'pipeline'
