@@ -1,5 +1,6 @@
-# ASP.NET
-# Build and test ASP.NET projects.
+# ASP.NET Core
+# Build and test ASP.NET Core projects.
+# Search "MyProj" and replace with your project name
 
 trigger:
 - main
