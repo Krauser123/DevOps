@@ -1,5 +1,6 @@
 # Node.js with React
 # Build a Node.js project that uses React with PnP and Spfx
+# Search "mySPFX_Package" and replace with your package name
 
 trigger:
 - main
