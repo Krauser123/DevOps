@@ -1,0 +1,30 @@
+#Create sonarQube in docker
+docker run -d --name sonarqube -p 9000:9000 sonarqube
+
+#Access to http://localhost:9000/ with admin/admn and update your password
+
+#Create a proyect in SonarQube and generate a new token
+
+#Install dotnet-sonarscanner
+dotnet tool install --global dotnet-sonarscanner
+
+#Create a bat in your root folder solution with the sample that appears after create the token and launch it to analyze
+
+#Analize your proyect
+sonar-scanner -D sonar.host.url=http://localhost:9000 -D sonar.projectKey=<Your-Project-Key> -D sonar.projectName="Your Project Name" -D sonar.projectVersion=<SemVer> -D sonar.login=<Your-Token-Here> -D sonar.test.exclusions=tests/**/*.cs
+
+#Extra ball
+Sometimes the analisys fail with the following error:
+
+ERROR: JAVA_HOME not found in your environment, and no Java
+       executable present in the PATH.
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation, or add "java.exe" to the PATH
+
+#In windows 
+  Download JDK
+  Add to environment vars
+
+#In linux
+  docker exec -it sonarqube bash
+  apk add openjdk8-jre
